@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/l3ubbleman/StudyGroupFinderServer/issues"
   },
-  "homepage": "https://github.com/l3ubbleman/StudyGroupFinderServer#readme"
+  "homepage": "https://github.com/l3ubbleman/StudyGroupFinderServer#readme",
+  "dependencies": {
+    "uwapi": "^1.1.1"
+  }
 }
