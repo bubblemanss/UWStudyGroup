@@ -1,0 +1,10 @@
+[
+    {
+        "code":"ECE207",
+        "location":"E2"
+    },
+    {
+        "code":"ECE224",
+        "location":"QNC"
+    }
+]
