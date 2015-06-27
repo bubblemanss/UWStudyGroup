@@ -72,6 +72,12 @@ app.post('/create', function(req, res){
     }
 });
 
+
+var path = require('path');
+app.get('/', function(req, res){
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 var server = app.listen(port, function() {
     var lhost = server.address().address;
     var lport = server.address().port;
