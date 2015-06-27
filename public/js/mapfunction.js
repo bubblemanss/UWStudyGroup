@@ -32,13 +32,13 @@ function initialize() {
 }
 
 function contentFormat(body){
-    JSON.stringify({
-        "type": body.type,
-        "building": body.building,
-        "room": body.room,
-        "code": body.code,
-        "people": body.people
-    })
+    var type = "Type: "+body.type+"<br/>";
+    var building = "Building: "+body.building+"<br/>";
+    var room = "Room #: "+body.room+"<br/>";
+    var code = "Building Code: "+body.code+"<br/>";
+    var people = "# of people: "+body.people+"<br/>";
+
+    return type+building+room+code+people;
 }
 
 function addMarker(data) {
@@ -82,8 +82,9 @@ function deleteMarkers() {
     markers = [];
 }
 
-function serverPost(event){
+function serverLookup(event){
     var url = "http://localhost:8080/lookup";
+    //var url = "http://uwstudygroup.herokuapp.com/lookup";
 
     event.preventDefault();
     var code = document.getElementById("code").value;
@@ -114,6 +115,10 @@ function serverPost(event){
             console.log(data.statusMessage);
         }
     );
+}
+
+function serverCreate(event){
+
 }
 
 function handleNoGeolocation(errorFlag) {

@@ -83,7 +83,7 @@ app.post('/lookup', function (req, res) {
 });
 
 app.post('/create', function(req, res){
-    if(req.body.code != null && req.body.location != null){
+    if(req.body.code != null && req.body.building != null && req.body.room != null && req.body.people != null){
         obj.push(req.body);
         res.status(200).send(JSON.stringify({"message":"Successfully added new study group."}));
     }
