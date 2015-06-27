@@ -83,8 +83,8 @@ function deleteMarkers() {
 }
 
 function serverLookup(event){
-    var url = "http://localhost:8080/lookup";
-    //var url = "http://uwstudygroup.herokuapp.com/lookup";
+    //var url = "http://localhost:8080/lookup";
+    var url = "http://uwstudygroup.herokuapp.com/lookup";
 
     event.preventDefault();
     var code = document.getElementById("code").value;
@@ -117,8 +117,8 @@ function serverLookup(event){
 }
 
 function serverCreate(event){
-    var url = "http://localhost:8080/create";
-    //var url = "http://uwstudygroup.herokuapp.com/lookup";
+    //var url = "http://localhost:8080/create";
+    var url = "http://uwstudygroup.herokuapp.com/create";
 
     event.preventDefault();
     var code = document.getElementById("code").value;
