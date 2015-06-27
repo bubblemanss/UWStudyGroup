@@ -42,6 +42,10 @@ app.use(bodyParser.json());       // to support JSON-encoded bodies
 var port = process.env.PORT || 8080;
 
 app.post('/lookup', function (req, res) {
+    res.set({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+    })
     lookupGroup(req.body, function(location){
         if(location == null){
             res.status(404).send(JSON.stringify({"message":"No study group found."}));
@@ -73,10 +77,11 @@ app.post('/create', function(req, res){
 });
 
 
-var path = require('path');
-app.get('/', function(req, res){
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+//var path = require('path');
+//app.get('/*', function(req, res){
+//    res.sendFile(path.join(__dirname, 'index.html'));
+//});
+app.use(express.static(__dirname + '/public'));
 
 var server = app.listen(port, function() {
     var lhost = server.address().address;
