@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/l3ubbleman/StudyGroupFinderServer#readme",
   "dependencies": {
+    "body-parser": "^1.13.1",
+    "express": "^4.13.0",
     "uwapi": "^1.1.1"
   }
 }

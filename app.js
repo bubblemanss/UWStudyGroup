@@ -30,41 +30,79 @@ var lookupGroup = function(parsedBody, callback){
     }
 }
 
-var server = http.createServer(function(request, response) {
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser')
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
 
-    if (request.method == "POST"){
-        request.on("data", function(jsonBody){
-            var parsedBody = JSON.parse(jsonBody);
-            response.writeHead(200, {
-                "Content-Type": "plain/text",
-                "Access-Control-Allow-Origin": "*",
-                "Content-Language":"utf-8"
-            });
+// set the port of our application
+// process.env.PORT lets the port be set by Heroku
+var port = process.env.PORT || 8080;
 
-            lookupGroup(parsedBody, function(location){
-                if(location == null){
-                    response.write(JSON.stringify({"message":"No study group found."}));
-                    response.end();
+app.post('/', function (req, res) {
+
+    lookupGroup(req.body, function(location){
+        if(location == null){
+            res.send(JSON.stringify({"message":"No study group found."}));
+        }
+        else{
+            lookupBuilding(location, function(building){
+                if(building == null){
+                    res.send(JSON.stringify({"message":"No building found."}));
                 }
                 else{
-                    lookupBuilding(location, function(building){
-                        if(building == null){
-                            response.write(JSON.stringify({"message":"No building found."}));
-                            response.end();
-                        }
-                        else{
-                            response.write(JSON.stringify({
-                                "latitude": building.latitude,
-                                "longitude": building.longitude
-                            }));
-                            response.end();
-                        }
-                    });
+                    res.send(JSON.stringify({
+                        "latitude": building.latitude,
+                        "longitude": building.longitude
+                    }));
                 }
             });
-        });
-    }
+        }
+    });
 });
 
-server.listen(8080);
-console.log("Server is listening");
+var server = app.listen(port, function() {
+    var lhost = server.address().address;
+    var lport = server.address().port;
+
+    console.log('Example app listening at http://%s:%s', lhost, lport);
+});
+
+//var server = http.createServer(function(request, response) {
+//
+//    if (request.method == "POST"){
+//        request.on("data", function(jsonBody){
+//            var parsedBody = JSON.parse(jsonBody);
+//            response.writeHead(200, {
+//                "Content-Type": "plain/text",
+//                "Access-Control-Allow-Origin": "*",
+//                "Content-Language":"utf-8"
+//            });
+//
+//            lookupGroup(parsedBody, function(location){
+//                if(location == null){
+//                    response.write(JSON.stringify({"message":"No study group found."}));
+//                    response.end();
+//                }
+//                else{
+//                    lookupBuilding(location, function(building){
+//                        if(building == null){
+//                            response.write(JSON.stringify({"message":"No building found."}));
+//                            response.end();
+//                        }
+//                        else{
+//                            response.write(JSON.stringify({
+//                                "latitude": building.latitude,
+//                                "longitude": building.longitude
+//                            }));
+//                            response.end();
+//                        }
+//                    });
+//                }
+//            });
+//        });
+//    }
+//});
+//
+//server.listen(8080);
+//console.log("Server is listening");
