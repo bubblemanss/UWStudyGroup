@@ -31,7 +31,19 @@ function initialize() {
     }
 }
 
-function addMarker(location) {
+function contentFormat(body){
+    JSON.stringify({
+        "type": body.type,
+        "building": body.building,
+        "room": body.room,
+        "code": body.code,
+        "people": body.people
+    })
+}
+
+function addMarker(data) {
+    var location = new google.maps.LatLng(data.latitude, data.longitude);
+
     var marker = new google.maps.Marker({
         position: location,
         map: map
@@ -42,7 +54,7 @@ function addMarker(location) {
     var infowindow = new google.maps.InfoWindow({
         map: map,
         position: location,
-        content: 'Student Study Group'
+        content: contentFormat(data)
     });
     infowindow.open(map, marker);
 }
@@ -71,13 +83,13 @@ function deleteMarkers() {
 }
 
 function serverPost(event){
-    event.preventDefault();
-    var email = document.getElementById("code").value;
-
     var url = "http://localhost:8080/lookup";
 
+    event.preventDefault();
+    var code = document.getElementById("code").value;
+
     var formData = {};
-    formData.code = email;
+    formData.code = code;
 
     jQuery.ajax({
         type:"POST",
@@ -87,12 +99,12 @@ function serverPost(event){
         contentType: "application/json"
     }).done(
         function(data){
-            localStorage.setItem("data", JSON.stringify(data));
+            //localStorage.setItem("data", JSON.stringify(data));
             console.log(data);
-
-            pos = new google.maps.LatLng(data.latitude, data.longitude);
             clearMarkers();
-            addMarker(pos);
+            for(var i = 0; i < data.length; i++){
+                addMarker(data[i]);
+            }
         }
     ).fail(
         function(data){

@@ -68,6 +68,7 @@ app.post('/lookup', function (req, res) {
                             "type": "Student",
                             "latitude": buildings[i].latitude,
                             "longitude": buildings[i].longitude,
+                            "building": locations[i].building,
                             "room": locations[i].room,
                             "code": locations[i].code,
                             "people": locations[i].people
