@@ -100,7 +100,6 @@ function serverLookup(event){
         contentType: "application/json"
     }).done(
         function(data){
-            //localStorage.setItem("data", JSON.stringify(data));
             console.log(data);
             clearMarkers();
             for(var i = 0; i < data.length; i++){
@@ -118,7 +117,39 @@ function serverLookup(event){
 }
 
 function serverCreate(event){
+    var url = "http://localhost:8080/create";
+    //var url = "http://uwstudygroup.herokuapp.com/lookup";
 
+    event.preventDefault();
+    var code = document.getElementById("code").value;
+    var building = document.getElementById("building").value;
+    var room = document.getElementById("room").value;
+    var people = document.getElementById("people").value;
+
+    var formData = {};
+    formData.code = code;
+    formData.building = building;
+    formData.room = room;
+    formData.people = people;
+
+    jQuery.ajax({
+        type:"POST",
+        url:url,
+        data:JSON.stringify(formData),
+        dataType:"json",
+        contentType: "application/json"
+    }).done(
+        function(data){
+            console.log(data);
+        }
+    ).fail(
+        function(data){
+            console.log('err');
+            console.log(JSON.stringify(data));
+            console.log(data.status);
+            console.log(data.statusMessage);
+        }
+    );
 }
 
 function handleNoGeolocation(errorFlag) {

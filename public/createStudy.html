@@ -12,6 +12,8 @@
 
     <title>Study Group</title>
 
+    <script type="text/javascript" src="js/mapfunction.js"></script>
+
     <!-- Bootstrap -->
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
 
@@ -31,12 +33,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project name</a>
+            <a class="navbar-brand" href="#">Study Group</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
+                <li class="active"><a href="index.html">Home</a></li>
+                <li><a href="createStudy.html">Create</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -44,9 +46,18 @@
 
 <div class="container">
 
-    <div class="starter-template">
-        <h1>Bootstrap starter template</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+    <div style="text-align:left;" class="starter-template">
+        <form name="formData" id="form" action="" onsubmit="serverCreate(event)" accept-charset="utf-8">
+            <label style="font-size:14px; color:#000000; font-weight:bold; font-style:italic;" for="code">Course Code</label>
+            <input id="code" type="text" name="code" placeholder="ECE224" required><br/>
+            <label style="font-size:14px; color:#000000; font-weight:bold; font-style:italic;" for="building">Building</label>
+            <input id="building" type="text" name="building" placeholder="E5" required><br/>
+            <label style="font-size:14px; color:#000000; font-weight:bold; font-style:italic;" for="room">Room #</label>
+            <input id="room" type="text" name="room" placeholder="1123" required><br/>
+            <label style="font-size:14px; color:#000000; font-weight:bold; font-style:italic;" for="people"># of People</label>
+            <input id="people" type="text" name="people" placeholder="5" required><br/>
+            <input type="submit" value="Submit">
+        </form>
     </div>
 
 </div><!-- /.container -->
