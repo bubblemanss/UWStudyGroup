@@ -35,7 +35,7 @@ function contentFormat(body){
     var type = "Type: "+body.type+"<br/>";
     var building = "Building: "+body.building+"<br/>";
     var room = "Room #: "+body.room+"<br/>";
-    var code = "Building Code: "+body.code+"<br/>";
+    var code = "Code: "+body.code+"<br/>";
     var people = "# of people: "+body.people+"<br/>";
 
     return type+building+room+code+people;
