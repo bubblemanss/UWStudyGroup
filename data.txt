@@ -1,10 +1,20 @@
 [
     {
         "code":"ECE207",
-        "location":"E2"
+        "building":"E2",
+        "room":"2354",
+        "people":10
     },
     {
         "code":"ECE224",
-        "location":"QNC"
+        "building":"QNC",
+        "room":"1011",
+        "people":1
+    },
+    {
+        "code":"ECE224",
+        "building":"E5",
+        "room":"2011",
+        "people":5
     }
 ]

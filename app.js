@@ -9,27 +9,33 @@ fs.readFile('data.txt', 'utf8', function (err, data) {
     obj = JSON.parse(data);
 });
 
-var lookupBuilding = function(location, callback){
-    uwapi.buildings({"building_acronym":location}).then(function(building) {
-        if(building.latitude != null && building.longitude != null){
-            callback(building);
-        }
-        else {
-            callback(null);
-        }
-    }).catch(function(err){
-        console.log(err);
-    });
+var lookupBuilding = function(locations, count, buildings, callback){
+    if(count == locations.length){
+        callback(buildings);
+    }
+    else{
+        uwapi.buildings({"building_acronym":locations[count].building}).then(function(building) {
+            if(building.latitude != null && building.longitude != null){
+                buildings.push(building);
+                lookupBuilding(locations, count+1, buildings, callback);
+            }
+            else {
+                callback(null);
+            }
+        }).catch(function(err){
+            console.log(err);
+        });
+    }
 }
 
 var lookupGroup = function(parsedBody, callback){
-    var location = null;
+    var buildings = [];
     for(var i = 0; i < obj.length; i++){
         if(obj[i].code == parsedBody.code){
-            location = obj[i].location;
+            buildings.push(obj[i]);
         }
     }
-    callback(location);
+    callback(buildings);
 }
 
 var express = require('express');
@@ -46,20 +52,29 @@ app.post('/lookup', function (req, res) {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*"
     })
-    lookupGroup(req.body, function(location){
-        if(location == null){
+    lookupGroup(req.body, function(locations){
+        if(locations.length == 0){
             res.status(404).send(JSON.stringify({"message":"No study group found."}));
         }
         else{
-            lookupBuilding(location, function(building){
-                if(building == null){
-                    res.status(404).send(JSON.stringify({"message":"No building found."}));
+            lookupBuilding(locations, 0, [], function(buildings){
+                if(buildings == null){
+                    res.status(404).send(JSON.stringify({"message":"No building found for one of the inputs."}));
                 }
                 else{
-                    res.status(200).send(JSON.stringify({
-                        "latitude": building.latitude,
-                        "longitude": building.longitude
-                    }));
+                    var responseBody = [];
+                    for(var i = 0; i < buildings.length; i++){
+                        var temp = {
+                            "type": "Student",
+                            "latitude": buildings[i].latitude,
+                            "longitude": buildings[i].longitude,
+                            "room": locations[i].room,
+                            "code": locations[i].code,
+                            "people": locations[i].people
+                        }
+                        responseBody.push(temp);
+                    }
+                    res.status(200).send(JSON.stringify(responseBody));
                 }
             });
         }
@@ -76,11 +91,6 @@ app.post('/create', function(req, res){
     }
 });
 
-
-//var path = require('path');
-//app.get('/*', function(req, res){
-//    res.sendFile(path.join(__dirname, 'index.html'));
-//});
 app.use(express.static(__dirname + '/public'));
 
 var server = app.listen(port, function() {

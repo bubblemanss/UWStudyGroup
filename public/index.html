@@ -22,7 +22,6 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxTBNv8A284kfY9aIEJkzZVIx8SwzYtZ0"></script>
     <script type="text/javascript" src="js/mapfunction.js"></script>
-
     <!-- Bootstrap -->
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
 
@@ -48,9 +47,21 @@
     <div id="navbar" class="collapse navbar-collapse">
     <ul class="nav navbar-nav">
     <li class="active"><a href="#">Home</a></li>
-     <li><input type="text" onkeypress="if(event.keyCode==13) postServer(value);"></li>
-                                </ul>
-                                  </div><!--/.nav-collapse -->
+     <li>
+        <form name="formData" id="form" action="" onsubmit="serverPost(event)" accept-charset="utf-8">
+            <ul>
+                <li>
+                    <label for="code">Course Code</label>
+                    <input id="code" type="text" name="code" placeholder="i.e. ECE224" required>
+                </li>
+                <li>
+                    <input type="submit" value="Submit">
+                </li>
+            </ul>
+        </form>
+    </li>
+    </ul>
+      </div><!--/.nav-collapse -->
     </div>
       </nav>
         <div id="map-canvas" style="width: 100%; height: 100%"></div>

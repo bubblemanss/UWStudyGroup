@@ -1,4 +1,6 @@
-var map;var pos;
+var map;
+var pos;
+var markers = [];
 
 function initialize() {
     var mapOptions = {
@@ -6,42 +8,17 @@ function initialize() {
         streetViewControl: false,
         zoom: 16
     };
-    map = new google.maps.Map(document.getElementById('map-canvas'),
-        mapOptions);
+    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
     // Try HTML5 geolocation
     if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            pos = new google.maps.LatLng(position.coords.latitude,
-                position.coords.longitude);
-
+            pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
             var marker = new google.maps.Marker({
-                map: map,
-                position: pos
-            });
-            var infowindow = new google.maps.InfoWindow({
-                map: map,
                 position: pos,
-                content: 'Search for posts within: <input type="number" value="5" min="1" onkeypress="if(event.keyCode==13) postServer(value);"> km'
+                map: map
             });
-            infowindow.open(map, marker);
-
-            google.maps.event.addListener(map, 'click', function (e) {
-                pos = e.latLng;
-                marker.setMap(null)
-                marker = new google.maps.Marker({
-                    position: pos,
-                    map: map
-                });
-                map.panTo(pos);
-
-                infowindow = new google.maps.InfoWindow({
-                    map: map,
-                    position: pos,
-                    content: 'Search for posts within: <input type="number" value="5" min="1" onkeypress="if(event.keyCode==13) postServer(value);"> km'
-                });
-                infowindow.open(map, marker);
-            });
+            markers.push(marker);
 
             map.setCenter(pos);
         },function () {
@@ -54,19 +31,77 @@ function initialize() {
     }
 }
 
-function postServer(val){
-    if(document.location.hostname == "trendy-posts.herokuapp.com" )
-    {
-        url = "http://trendy-posts.herokuapp.com/nearby"
+function addMarker(location) {
+    var marker = new google.maps.Marker({
+        position: location,
+        map: map
+    });
+    markers.push(marker);
+    map.panTo(location);
+
+    var infowindow = new google.maps.InfoWindow({
+        map: map,
+        position: location,
+        content: 'Student Study Group'
+    });
+    infowindow.open(map, marker);
+}
+
+// Sets the map on all markers in the array.
+function setAllMap(map) {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
     }
-    else
-    {
-        url = "http://127.0.0.1:5000/nearby"
-    }
-    jQuery.post(url, {lat: pos.lat(), long: pos.lng(), value: val}, function(data){
-        sessionStorage.setItem("data", JSON.stringify(data));
-        window.open("/nearby/trending");
-    })
+}
+
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers() {
+    setAllMap(null);
+}
+
+// Shows any markers currently in the array.
+function showMarkers() {
+    setAllMap(map);
+}
+
+// Deletes all markers in the array by removing references to them.
+function deleteMarkers() {
+    clearMarkers();
+    markers = [];
+}
+
+function serverPost(event){
+    event.preventDefault();
+    var email = document.getElementById("code").value;
+
+    var url = "http://localhost:8080/lookup";
+
+    var formData = {};
+    formData.code = email;
+
+    jQuery.ajax({
+        type:"POST",
+        url:url,
+        data:JSON.stringify(formData),
+        dataType:"json",
+        contentType: "application/json"
+    }).done(
+        function(data){
+            localStorage.setItem("data", JSON.stringify(data));
+            console.log(data);
+
+            pos = new google.maps.LatLng(data.latitude, data.longitude);
+            clearMarkers();
+            addMarker(pos);
+        }
+    ).fail(
+        function(data){
+            console.log('err');
+            console.log(JSON.stringify(data));
+            console.log(data.status);
+            console.log(data.statusMessage);
+        }
+    );
 }
 
 function handleNoGeolocation(errorFlag) {
