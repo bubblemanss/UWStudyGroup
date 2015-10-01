@@ -1,4 +1,4 @@
-# StudyGroupServer
+# UWStudyGroup
 
 http://uwstudygroup.herokuapp.com/
 
