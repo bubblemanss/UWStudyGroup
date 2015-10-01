@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:weightSum="1" android:id="@+id/LinearLayout"
+        >
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Study Group Finder"
+            android:id="@+id/Title"
+            android:textSize="32dp"
+            android:layout_weight="0.14" android:gravity="center"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_bar"
+            android:inputType="text"
+            android:hint="@string/search_label"
+            android:paddingLeft="32px"
+            android:layout_weight="0.10"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_button_label"
+            android:id="@+id/search_button"
+            android:layout_gravity="right"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Study Group"
+            android:textSize="32dp"
+            android:id="@+id/CreateTitle" android:layout_gravity="center_horizontal" android:layout_weight="0.23"
+            android:gravity="bottom"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/code_label"
+            android:id="@+id/code" android:layout_weight="0.06"
+            android:paddingLeft="32px"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/building_label"
+            android:id="@+id/building" android:layout_gravity="center_horizontal" android:layout_weight="0.1"
+            android:paddingLeft="32px"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/room_label"
+            android:id="@+id/room" android:layout_gravity="center_horizontal" android:layout_weight="0.1"
+            android:paddingLeft="32px"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/people_label"
+            android:id="@+id/people" android:layout_gravity="center_horizontal" android:layout_weight="0.1"
+            android:paddingLeft="32px"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_button_label"
+            android:id="@+id/create_button"
+            android:layout_gravity="right"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/error_msgs" android:layout_weight="0.1" android:layout_gravity="bottom|center_horizontal"/>
+</LinearLayout>
+

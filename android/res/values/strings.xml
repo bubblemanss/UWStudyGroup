@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">StudyGroupFinder</string>
+    <string name="search_label">Find a course</string>
+    <string name="code_label">Course Code</string>
+    <string name="building_label">Building</string>
+    <string name="room_label">Room</string>
+    <string name="people_label">Number of People</string>
+    <string name="create_button_label">Create</string>
+    <string name="search_button_label">Search</string>
+</resources>
